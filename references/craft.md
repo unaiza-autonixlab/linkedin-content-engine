@@ -59,7 +59,10 @@ From Hootsuite's algorithm analysis:
   beats a post someone reflexively likes
 - **Replying to comments lifts engagement about 30%.** The hour after posting is
   not optional
-- Posts can resurface 2 to 3 weeks later, so evergreen material keeps working
+- ~~Posts resurface 2 to 3 weeks later~~ **RETRACTED 2026-07-21.** No dataset
+  supports this and the measured picture contradicts it: Metricool finds 50% of
+  a post's impressions land in the first 48 hours, and van der Blom puts most
+  reach inside the first 90 minutes. Treat as folklore
 - The algorithm parses meaning semantically now rather than matching hashtags
 
 Practical read: write things people save and stop to read. That favours
@@ -207,8 +210,74 @@ worth reading.
 
 - **Max 3 hashtags** [EVIDENCE, Buffer]. Zero is usually fine now that the
   algorithm parses semantically rather than matching tags.
-- **External links reduce engagement** [EVIDENCE, corroborated by Buffer,
-  Hootsuite and Sprout independently]. Put links in the first comment.
 - Line break every 1 to 2 sentences. White space is the format.
 - No emoji bullets. No unicode bold. Both read as growth-hacking.
-- 2 to 5 posts per week is optimal [EVIDENCE, Buffer, 2M+ posts].
+
+### The link penalty is bigger than "reduces engagement" [EVIDENCE]
+
+Measured on **personal profiles**: **-27% impressions and -20% interactions**
+(Metricool, 673k posts). An independent smaller test found roughly **-60% reach**
+(River Editor, 300 posts). Two samples, same direction.
+
+Note the asymmetry: company **pages** see the opposite, +51% impressions. You
+posts from a profile, so the penalty applies.
+
+**This is a strategy constraint, not a formatting tip.** LinkedIn structurally
+cannot be a click-to-landing-page channel for a solo profile. Everything has to
+route through the profile or a DM. Which makes the profile the conversion point
+by default, whether or not it has been designed as one.
+
+Links in the first comment remain the workaround. No performance data exists on
+how well it still works.
+
+### Frequency: posting more is not the lever [EVIDENCE]
+
+- van der Blom: **1 to 3 posts per week** is the sweet spot, diminishing returns
+  above it
+- River Editor: 3 to 4, and daily posting without sustained engagement rates
+  triggers suppression
+- Buffer, 2M+ posts: 2 to 5 per week
+
+Four posts a week sits at the top of every credible range. Treat it as a
+ceiling, not a target. If time is short, cut posts before cutting comment
+replies.
+
+### Timing is folklore [EVIDENCE, by contradiction]
+
+Four datasets, four incompatible answers:
+
+| Source | Sample | Best days | Best times |
+|---|---|---|---|
+| Buffer | 4.8M posts | Wed, Thu, Fri. Mon/Tue worst | 3-8pm |
+| van der Blom | 1.3M posts | Tue, Thu | 7-8am, 10-11am, 12-2pm, 4-6pm |
+| River Editor | 300 posts | Tue-Thu. Mon/Fri worst | 7-9am, avoid 12-2pm |
+| Metricool | 673k posts | - | 9am-12pm |
+
+Buffer's 4.8M sample says Tuesday is worst; van der Blom says it is best.
+Agorapulse says 12-2pm is optimal; River Editor says avoid exactly that window.
+
+**Stop optimising this.** Three of four agree that your own engagement in the
+first 60 to 90 minutes matters more than the clock. Pick a slot you can
+reliably be online for, and hold it.
+
+### The platform is getting harder [EVIDENCE]
+
+Worth knowing so results are judged against the right baseline:
+
+- Follower growth for 1,000 to 5,000 follower accounts fell from **40.75% to
+  24.50%** year on year (Socialinsider)
+- Average post reach fell from 15-20% of followers to **8-12%** (van der Blom)
+- Video views down 36% year on year
+
+The same effort buys materially less than it did in 2024. That is the
+environment, not a failure of the content.
+
+### Also worth knowing
+
+- **Personal profiles beat company pages by 6 to 8x** on reach. Post as
+  yourself, not as the company
+- **Engagement pods are detected and penalised** [single source, but the
+  downside is asymmetric]
+- **Post reactivation:** commenting on your own post after 8 or 24 hours pushes
+  it back into feeds [van der Blom via Agorapulse, recommended tactic rather
+  than measured result]

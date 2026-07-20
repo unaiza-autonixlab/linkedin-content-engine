@@ -10,6 +10,14 @@ context loaded and leave with something you can post.
 
 ## What to do
 
+### 0. Check the other sources first
+
+Reddit is one input. `objections.md` (real sales call objections) outranks it,
+because it is pain from people who nearly paid. If it has entries that have not
+become posts, offer those first.
+
+See `references/idea-sources.md` for the full ranked list.
+
 ### 1. Read the bank
 
 `idea-bank.md` holds every topic mined from Reddit, each with a status:
@@ -58,7 +66,7 @@ on the first two or it does not get offered.
 Hook and structure patterns are in `references/craft.md`. Use them to write the
 hook line before offering the idea, not after you pick it.
 
-For each idea give yourself, in about four lines:
+For each idea give your, in about four lines:
 
 - The hook line, written out, not described
 - Why it will land, in one sentence

@@ -6,17 +6,19 @@
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap');
 
   /* Canvas is 1200x1500 (4:5). LinkedIn renders this at roughly 350-400 CSS px
-     on a phone, so everything here is seen at about a third of its size. That
-     3x downscale is why the minimum type size below looks so large. */
+     on a phone, about a 3x reduction. That is why the type floors look large.
+
+     One system, several compositions. Recognition lives in the invariants
+     (colour, typeface, margins, footer). Variety lives in the slide layout, so
+     the deck has rhythm instead of reading as one template repeated. */
   :root {
     --ink: #0d0d0d;
     --accent: #ff6b35;
-    /* Orange on paper is only 2.6:1. This darkened tone clears WCAG AA for
-       small text on light backgrounds. */
+    /* Orange on paper is only 2.6:1. Darkened tone for accent text on light. */
     --accent-ink: #ba4e27;
     --paper: #f5f5f0;
     --muted: #9c9c94;
-    --pad: 112px;       /* 8pt grid */
+    --pad: 112px;
     --pad-bottom: 168px;
   }
 
@@ -31,52 +33,76 @@
     overflow: hidden; position: relative;
   }
 
-  .slide.cover { background: var(--accent); color: var(--ink); }
-  .slide.end   { background: var(--paper); color: var(--ink); }
+  /* Polarity is bound to the archetype, never to slide index. Alternating for
+     variety alone reads as inconsistency: the viewer looks for the rule, does
+     not find one, and registers noise. */
+  .slide.cover   { background: var(--accent); color: var(--ink); }
+  .slide.end     { background: var(--paper); color: var(--ink); }
+  .slide.callout { background: var(--paper); color: var(--ink); }
 
   .rule { width: 100px; height: 10px; background: var(--accent); flex: none; }
   .cover .rule { background: var(--ink); }
-  .end .rule { background: var(--accent-ink); }
+  .end .rule, .callout .rule { background: var(--accent-ink); }
 
   .num {
     position: absolute; top: var(--pad); right: var(--pad);
     font-size: 28px; font-weight: 600; letter-spacing: .08em;
     color: rgba(245,245,240,.34);
   }
-  .end .num { color: rgba(13,13,13,.34); }
+  .end .num, .callout .num { color: rgba(13,13,13,.36); }
 
-  /* Content is anchored to a fixed baseline rather than vertically centred.
-     Centring makes each slide sit at a different height, so the deck visibly
-     jitters as you swipe. This is one of the strongest "template" tells. */
+  /* Interiors anchor to a fixed top baseline. Vertical centring makes each
+     slide sit at a different height and the deck jitters on swipe, which is
+     one of the strongest template tells. Cover and callout are posters, so
+     they centre. */
   .stage {
     flex: 1 1 auto; min-height: 0;
-    display: flex; flex-direction: column;
-    justify-content: flex-start;
-    overflow: hidden;
-    padding-top: 84px;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    overflow: hidden; padding-top: 84px;
   }
-  /* The cover is the exception: it is a poster, so it centres. */
-  .cover .stage { justify-content: center; padding-top: 0; }
+  .cover .stage, .callout .stage { justify-content: center; padding-top: 0; }
 
   .kicker {
     font-size: 26px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 30px; flex: none;
   }
   .cover .kicker { color: rgba(13,13,13,.86); }
-  .end .kicker { color: var(--accent-ink); }
+  .end .kicker, .callout .kicker { color: var(--accent-ink); }
 
-  h2 {
-    font-weight: 800; line-height: 1.1; letter-spacing: -.026em;
-    text-wrap: balance; max-width: 22ch;
-  }
+  h2 { font-weight: 800; line-height: 1.1; letter-spacing: -.026em; text-wrap: balance; max-width: 22ch; }
   h2 em { font-style: normal; color: var(--accent); }
   .cover h2 { max-width: 18ch; }
-  .cover h2 em { color: var(--ink); box-shadow: inset 0 -.24em 0 rgba(13,13,13,.18); }
-  .end h2 em { color: var(--accent-ink); }
+  .cover h2 em { color: var(--ink); box-shadow: inset 0 -.22em 0 rgba(13,13,13,.18); }
+  .end h2 em, .callout h2 em { color: var(--accent-ink); }
 
   /* 30-45 characters per line. Slide text is scanned, not read as prose. */
   p.text { margin-top: 40px; line-height: 1.45; color: #c8c8c0; max-width: 40ch; }
-  .cover p.text, .end p.text { color: rgba(13,13,13,.76); }
+  .cover p.text, .end p.text, .callout p.text { color: rgba(13,13,13,.78); }
+
+  /* stat slide: the numeral is the hero, 3 to 5x its qualifier */
+  .stat { font-weight: 900; color: var(--accent); line-height: .86; letter-spacing: -.045em; }
+  .callout .stat, .end .stat { color: var(--accent-ink); }
+  .stat-label { margin-top: 28px; font-weight: 600; line-height: 1.2; max-width: 18ch; }
+
+  /* comparison: stacked rows. Columns halve the type and stop being readable. */
+  .rows { display: flex; flex-direction: column; gap: 36px; margin-top: 8px; }
+  .row { border-left: 8px solid rgba(245,245,240,.18); padding-left: 32px; }
+  .row.hi { border-left-color: var(--accent); }
+  .end .row, .callout .row { border-left-color: rgba(13,13,13,.2); }
+  .end .row.hi, .callout .row.hi { border-left-color: var(--accent-ink); }
+  .row .label {
+    font-size: 28px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 14px;
+  }
+  .end .row .label, .callout .row .label { color: #535349; }
+  .row .value { font-weight: 800; line-height: 1.12; letter-spacing: -.02em; }
+
+  /* list: numerals hung in the margin so they read as furniture, not content */
+  .items { display: flex; flex-direction: column; gap: 34px; margin-top: 8px; }
+  .item { display: flex; gap: 28px; align-items: baseline; }
+  .item .n { font-weight: 800; color: var(--accent); flex: none; min-width: 1.4em; }
+  .end .item .n, .callout .item .n { color: var(--accent-ink); }
+  .item .body { font-weight: 600; line-height: 1.22; letter-spacing: -.015em; }
 
   footer {
     flex: none; display: flex; justify-content: space-between; align-items: baseline;
@@ -84,9 +110,9 @@
     padding-top: 30px; color: var(--muted);
   }
   .cover footer { border-color: rgba(13,13,13,.24); color: rgba(13,13,13,.86); }
-  .end footer { border-color: rgba(13,13,13,.15); color: #535349; }
+  .end footer, .callout footer { border-color: rgba(13,13,13,.15); color: #535349; }
   footer .handle { font-weight: 600; color: var(--paper); }
-  .cover .handle, .end .handle { color: var(--ink); }
+  .cover .handle, .end .handle, .callout .handle { color: var(--ink); }
 </style>
 </head>
 <body>
@@ -103,26 +129,52 @@
   const handle = c.handle || 'Your Name';
   const tag = c.tag || 'Your Company';
   const total = c.slides.length;
-  const accent = (s) => String(s || '').replace(/\*(.+?)\*/g, '<em>$1</em>');
+  const em = (s) => String(s == null ? '' : s).replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  // Layout follows the shape of the slide's own content.
+  const layoutOf = (s) =>
+    s.layout || (s.type === 'cover' ? 'cover' : s.type === 'end' ? 'end'
+      : s.type === 'callout' ? 'callout'
+      : s.stat ? 'stat' : s.rows ? 'comparison' : s.items ? 'list' : 'statement');
+
+  const body = (s) => {
+    const kicker = s.kicker ? `<div class="kicker">${s.kicker}</div>` : '';
+    const head = s.headline ? `<h2>${em(s.headline)}</h2>` : '';
+    const text = s.text ? `<p class="text">${em(s.text)}</p>` : '';
+    const L = layoutOf(s);
+
+    if (L === 'stat') {
+      return kicker + `<div class="stat">${s.stat}</div>` +
+        (s.headline ? `<div class="stat-label">${em(s.headline)}</div>` : '') + text;
+    }
+    if (L === 'comparison') {
+      return kicker + head + `<div class="rows">${(s.rows || []).map((r) => `
+        <div class="row ${r.highlight ? 'hi' : ''}">
+          ${r.label ? `<div class="label">${r.label}</div>` : ''}
+          <div class="value">${em(r.value)}</div></div>`).join('')}</div>` + text;
+    }
+    if (L === 'list') {
+      return kicker + head + `<div class="items">${(s.items || []).map((it, i) => `
+        <div class="item"><div class="n">${i + 1}</div>
+        <div class="body">${em(it)}</div></div>`).join('')}</div>`;
+    }
+    return kicker + head + text;
+  };
 
   document.body.innerHTML = c.slides.map((s, i) => {
-    const kind = s.type === 'cover' ? 'cover' : s.type === 'end' ? 'end' : '';
-    const counter = kind === 'cover' ? '' : `<div class="num">${i + 1} / ${total}</div>`;
-    return `
-      <div class="slide ${kind}">
-        ${counter}
-        <div class="rule"></div>
-        <div class="stage">
-          ${s.kicker ? `<div class="kicker">${s.kicker}</div>` : ''}
-          <h2>${accent(s.headline)}</h2>
-          ${s.text ? `<p class="text">${accent(s.text)}</p>` : ''}
-        </div>
+    const L = layoutOf(s);
+    const kind = ['cover', 'end', 'callout'].includes(L) ? L : '';
+    // No counter on the cover: it should read as a headline, not page 1.
+    const counter = L === 'cover' ? '' : `<div class="num">${i + 1} / ${total}</div>`;
+    return `<div class="slide ${kind}" data-layout="${L}">
+        ${counter}<div class="rule"></div>
+        <div class="stage">${body(s)}</div>
         <footer><span class="handle">${handle}</span><span>${tag}</span></footer>
       </div>`;
   }).join('');
 
-  /** Measure the largest size that fits, rather than guessing from length. */
-  function fitToStage(stage, el, min, max) {
+  /** Measure the largest size that fits. Guessing from length overflows. */
+  function fit(stage, el, min, max) {
     if (!el || !el.textContent.trim()) return min;
     let lo = min, hi = max, best = min;
     while (hi - lo > 0.5) {
@@ -134,40 +186,75 @@
     el.style.fontSize = best + 'px';
     return best;
   }
-
-  // Floors are set by the 3x feed downscale: 48px here is ~16px on a phone.
-  const BODY_MIN = 48, HEAD_MIN = 56;
-
-  const sizes = [];
-  document.querySelectorAll('.slide').forEach((slide) => {
-    const stage = slide.querySelector('.stage');
-    const h2 = slide.querySelector('h2');
-    const txt = slide.querySelector('p.text');
-    const isCover = slide.classList.contains('cover');
-
-    if (txt) txt.style.fontSize = '50px';
-    let size = fitToStage(stage, h2, HEAD_MIN, isCover ? 150 : 104);
-
-    // If the headline is being crushed, shrink body copy first. A large
-    // headline with less supporting text always reads better than the reverse.
-    if (txt && size < (isCover ? 104 : 78)) {
-      txt.style.fontSize = BODY_MIN + 'px';
-      size = fitToStage(stage, h2, HEAD_MIN, isCover ? 150 : 104);
+  function fitGroup(stage, sel, min, max) {
+    const els = [...stage.querySelectorAll(sel)];
+    if (!els.length) return min;
+    let lo = min, hi = max, best = min;
+    while (hi - lo > 0.5) {
+      const mid = (lo + hi) / 2;
+      els.forEach((e) => { e.style.fontSize = mid + 'px'; });
+      if (stage.scrollHeight <= stage.clientHeight) { best = mid; lo = mid; }
+      else { hi = mid; }
     }
-    sizes.push(size);
-  });
-
-  // Interior slides share one headline size so the deck reads as typeset
-  // rather than auto-generated. Cover and closing slides keep their own scale.
-  const all = [...document.querySelectorAll('.slide')];
-  const interior = all.map((s, i) => (!s.classList.contains('cover') && !s.classList.contains('end')) ? i : -1)
-                      .filter((i) => i >= 0);
-  if (interior.length > 1) {
-    const common = Math.min(...interior.map((i) => sizes[i]));
-    interior.forEach((i) => { all[i].querySelector('h2').style.fontSize = common + 'px'; });
+    els.forEach((e) => { e.style.fontSize = best + 'px'; });
+    return best;
   }
 
-  window.__FIT__ = { sizes };
+  // Floors set by the ~3x feed downscale: 48px here is roughly 16px on a phone.
+  const BODY_MIN = 48, HEAD_MIN = 56;
+  const sizes = [];
+
+  document.querySelectorAll('.slide').forEach((slide) => {
+    const stage = slide.querySelector('.stage');
+    const L = slide.dataset.layout;
+    const h2 = stage.querySelector('h2');
+    const txt = stage.querySelector('p.text');
+    const isPoster = L === 'cover' || L === 'callout';
+
+    if (txt) txt.style.fontSize = '50px';
+
+    if (L === 'stat') {
+      // Supporting text down to its floor first, then the numeral takes the
+      // rest. Fitting the number first lets the label crowd it and the
+      // hierarchy collapses into two similar sized blocks.
+      const label = stage.querySelector('.stat-label');
+      if (label) label.style.fontSize = '56px';
+      if (txt) txt.style.fontSize = BODY_MIN + 'px';
+      const n = fit(stage, stage.querySelector('.stat'), 120, 320);
+      if (label && n / parseFloat(label.style.fontSize) < 2.6) {
+        label.style.fontSize = '48px';
+        fit(stage, stage.querySelector('.stat'), 120, 320);
+      }
+      sizes.push(null);
+      return;
+    }
+
+    if (L === 'comparison' || L === 'list') {
+      if (h2) fit(stage, h2, HEAD_MIN, 84);
+      fitGroup(stage, L === 'list' ? '.item .body' : '.row .value', BODY_MIN, 72);
+      sizes.push(null);
+      return;
+    }
+
+    let size = fit(stage, h2, HEAD_MIN, isPoster ? 150 : 104);
+    if (txt && size < (isPoster ? 104 : 78)) {
+      txt.style.fontSize = BODY_MIN + 'px';
+      size = fit(stage, h2, HEAD_MIN, isPoster ? 150 : 104);
+    }
+    sizes.push(L === 'statement' ? size : null);
+  });
+
+  // Plain statement slides share one headline size so the deck reads as
+  // typeset. Stat, list and comparison slides keep their own scale, since
+  // forcing them to match would shrink them for no reason.
+  const all = [...document.querySelectorAll('.slide')];
+  const plain = all.map((s, i) => (s.dataset.layout === 'statement' ? i : -1)).filter((i) => i >= 0);
+  if (plain.length > 1) {
+    const common = Math.min(...plain.map((i) => sizes[i]).filter((n) => n));
+    plain.forEach((i) => { all[i].querySelector('h2').style.fontSize = common + 'px'; });
+  }
+
+  window.__FIT__ = { sizes, layouts: all.map((s) => s.dataset.layout) };
 </script>
 </body>
 </html>
