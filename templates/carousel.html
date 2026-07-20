@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap');
+
+  /* Canvas is 1200x1500 (4:5). LinkedIn renders this at roughly 350-400 CSS px
+     on a phone, so everything here is seen at about a third of its size. That
+     3x downscale is why the minimum type size below looks so large. */
+  :root {
+    --ink: #0d0d0d;
+    --accent: #ff6b35;
+    /* Orange on paper is only 2.6:1. This darkened tone clears WCAG AA for
+       small text on light backgrounds. */
+    --accent-ink: #ba4e27;
+    --paper: #f5f5f0;
+    --muted: #9c9c94;
+    --pad: 112px;       /* 8pt grid */
+    --pad-bottom: 168px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; font-family: Inter, 'Segoe UI', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+
+  .slide {
+    width: 1200px; height: 1500px;
+    background: var(--ink); color: var(--paper);
+    padding: var(--pad) var(--pad) var(--pad-bottom);
+    display: flex; flex-direction: column;
+    overflow: hidden; position: relative;
+  }
+
+  .slide.cover { background: var(--accent); color: var(--ink); }
+  .slide.end   { background: var(--paper); color: var(--ink); }
+
+  .rule { width: 100px; height: 10px; background: var(--accent); flex: none; }
+  .cover .rule { background: var(--ink); }
+  .end .rule { background: var(--accent-ink); }
+
+  .num {
+    position: absolute; top: var(--pad); right: var(--pad);
+    font-size: 28px; font-weight: 600; letter-spacing: .08em;
+    color: rgba(245,245,240,.34);
+  }
+  .end .num { color: rgba(13,13,13,.34); }
+
+  /* Content is anchored to a fixed baseline rather than vertically centred.
+     Centring makes each slide sit at a different height, so the deck visibly
+     jitters as you swipe. This is one of the strongest "template" tells. */
+  .stage {
+    flex: 1 1 auto; min-height: 0;
+    display: flex; flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+    padding-top: 84px;
+  }
+  /* The cover is the exception: it is a poster, so it centres. */
+  .cover .stage { justify-content: center; padding-top: 0; }
+
+  .kicker {
+    font-size: 26px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 30px; flex: none;
+  }
+  .cover .kicker { color: rgba(13,13,13,.86); }
+  .end .kicker { color: var(--accent-ink); }
+
+  h2 {
+    font-weight: 800; line-height: 1.1; letter-spacing: -.026em;
+    text-wrap: balance; max-width: 22ch;
+  }
+  h2 em { font-style: normal; color: var(--accent); }
+  .cover h2 { max-width: 18ch; }
+  .cover h2 em { color: var(--ink); box-shadow: inset 0 -.24em 0 rgba(13,13,13,.18); }
+  .end h2 em { color: var(--accent-ink); }
+
+  /* 30-45 characters per line. Slide text is scanned, not read as prose. */
+  p.text { margin-top: 40px; line-height: 1.45; color: #c8c8c0; max-width: 40ch; }
+  .cover p.text, .end p.text { color: rgba(13,13,13,.76); }
+
+  footer {
+    flex: none; display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 26px; border-top: 1px solid rgba(245,245,240,.14);
+    padding-top: 30px; color: var(--muted);
+  }
+  .cover footer { border-color: rgba(13,13,13,.24); color: rgba(13,13,13,.86); }
+  .end footer { border-color: rgba(13,13,13,.15); color: #535349; }
+  footer .handle { font-weight: 600; color: var(--paper); }
+  .cover .handle, .end .handle { color: var(--ink); }
+</style>
+</head>
+<body>
+<script>
+  const c = window.__CONTENT__ || { slides: [] };
+
+  if (c.colors) {
+    const r = document.documentElement.style;
+    if (c.colors.ink) r.setProperty('--ink', c.colors.ink);
+    if (c.colors.accent) r.setProperty('--accent', c.colors.accent);
+    if (c.colors.paper) r.setProperty('--paper', c.colors.paper);
+  }
+
+  const handle = c.handle || 'Your Name';
+  const tag = c.tag || 'Your Company';
+  const total = c.slides.length;
+  const accent = (s) => String(s || '').replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  document.body.innerHTML = c.slides.map((s, i) => {
+    const kind = s.type === 'cover' ? 'cover' : s.type === 'end' ? 'end' : '';
+    const counter = kind === 'cover' ? '' : `<div class="num">${i + 1} / ${total}</div>`;
+    return `
+      <div class="slide ${kind}">
+        ${counter}
+        <div class="rule"></div>
+        <div class="stage">
+          ${s.kicker ? `<div class="kicker">${s.kicker}</div>` : ''}
+          <h2>${accent(s.headline)}</h2>
+          ${s.text ? `<p class="text">${accent(s.text)}</p>` : ''}
+        </div>
+        <footer><span class="handle">${handle}</span><span>${tag}</span></footer>
+      </div>`;
+  }).join('');
+
+  /** Measure the largest size that fits, rather than guessing from length. */
+  function fitToStage(stage, el, min, max) {
+    if (!el || !el.textContent.trim()) return min;
+    let lo = min, hi = max, best = min;
+    while (hi - lo > 0.5) {
+      const mid = (lo + hi) / 2;
+      el.style.fontSize = mid + 'px';
+      if (stage.scrollHeight <= stage.clientHeight) { best = mid; lo = mid; }
+      else { hi = mid; }
+    }
+    el.style.fontSize = best + 'px';
+    return best;
+  }
+
+  // Floors are set by the 3x feed downscale: 48px here is ~16px on a phone.
+  const BODY_MIN = 48, HEAD_MIN = 56;
+
+  const sizes = [];
+  document.querySelectorAll('.slide').forEach((slide) => {
+    const stage = slide.querySelector('.stage');
+    const h2 = slide.querySelector('h2');
+    const txt = slide.querySelector('p.text');
+    const isCover = slide.classList.contains('cover');
+
+    if (txt) txt.style.fontSize = '50px';
+    let size = fitToStage(stage, h2, HEAD_MIN, isCover ? 150 : 104);
+
+    // If the headline is being crushed, shrink body copy first. A large
+    // headline with less supporting text always reads better than the reverse.
+    if (txt && size < (isCover ? 104 : 78)) {
+      txt.style.fontSize = BODY_MIN + 'px';
+      size = fitToStage(stage, h2, HEAD_MIN, isCover ? 150 : 104);
+    }
+    sizes.push(size);
+  });
+
+  // Interior slides share one headline size so the deck reads as typeset
+  // rather than auto-generated. Cover and closing slides keep their own scale.
+  const all = [...document.querySelectorAll('.slide')];
+  const interior = all.map((s, i) => (!s.classList.contains('cover') && !s.classList.contains('end')) ? i : -1)
+                      .filter((i) => i >= 0);
+  if (interior.length > 1) {
+    const common = Math.min(...interior.map((i) => sizes[i]));
+    interior.forEach((i) => { all[i].querySelector('h2').style.fontSize = common + 'px'; });
+  }
+
+  window.__FIT__ = { sizes };
+</script>
+</body>
+</html>

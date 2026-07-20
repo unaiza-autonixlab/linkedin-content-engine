@@ -1,0 +1,10 @@
+node_modules/
+.env
+*.log
+
+# your content and research stay local
+data/week-*.json
+data/seen-ids.json
+pain-library.md
+mechanism-library.md
+output/renders/

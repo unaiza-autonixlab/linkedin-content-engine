@@ -1,0 +1,10 @@
+{
+  "slug": "example-carousel",
+  "type": "carousel",
+  "slides": [
+    { "type": "cover", "kicker": "Attribution", "headline": "Meta said 10 sales. Shopify said 6.", "text": "Nobody was lying. Here is what actually happened." },
+    { "kicker": "Reason 1", "headline": "Your pixel fires *twice* for one buyer.", "text": "The browser sends a purchase. Your server sends the same purchase. Meta is supposed to match them and count one." },
+    { "kicker": "Reason 2", "headline": "Some of those sales are *estimates*.", "text": "Since iOS 14, Meta models conversions it cannot observe. Modelled sales look identical to real ones." },
+    { "type": "end", "headline": "Stop trying to make them match.", "text": "They measure different things. Which one does your team quote in meetings?" }
+  ]
+}

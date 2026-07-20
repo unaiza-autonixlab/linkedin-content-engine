@@ -1,0 +1,64 @@
+{
+  "apify": {
+    "actorId": "trudax~reddit-scraper-lite",
+    "tokenEnvVar": "APIFY_TOKEN",
+    "baseUrl": "https://api.apify.com/v2",
+    "runTimeoutSecs": 600,
+    "pollIntervalMs": 5000
+  },
+  "scrape": {
+    "sort": "top",
+    "time": "week",
+    "maxPostsPerSubreddit": 25,
+    "maxCommentsPerPost": 10,
+    "skipUserPosts": true,
+    "skipComments": false
+  },
+  "subreddits": [
+    "ecommerce",
+    "shopify",
+    "PPC",
+    "FacebookAds",
+    "marketing",
+    "digital_marketing",
+    "agency",
+    "SaaS",
+    "Entrepreneur",
+    "smallbusiness"
+  ],
+  "painKeywords": [
+    "roas",
+    "attribution",
+    "reporting",
+    "spreadsheet",
+    "cac",
+    "conversion tracking",
+    "tracking issue",
+    "server side tracking",
+    "pixel",
+    "capi",
+    "utm",
+    "ga4",
+    "triple whale",
+    "numbers don't match",
+    "numbers dont match",
+    "dashboard",
+    "meta ads",
+    "klaviyo",
+    "wasted spend",
+    "agency reporting",
+    "client reporting"
+  ],
+  "paths": {
+    "dataDir": "data",
+    "outputDir": "output",
+    "seenIdsFile": "data/seen-ids.json"
+  },
+  "brand": {
+    "name": "Your Name",
+    "company": "Your Company",
+    "ink": "#0d0d0d",
+    "accent": "#ff6b35",
+    "paper": "#f5f5f0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "linkedin-content-engine",
+  "version": "1.0.0",
+  "description": "Mine Reddit for what your audience complains about, turn it into LinkedIn posts, images and carousels.",
+  "main": "fetch.js",
+  "scripts": {
+    "fetch": "node fetch.js",
+    "render": "node render.js"
+  },
+  "keywords": ["linkedin", "content", "reddit", "claude-code", "carousel"],
+  "license": "MIT",
+  "engines": { "node": ">=18.0.0" },
+  "dependencies": { "playwright-core": "^1.61.1" }
+}

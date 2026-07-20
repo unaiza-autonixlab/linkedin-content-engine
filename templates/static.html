@@ -1,0 +1,246 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap');
+
+  /* 1080x1080. One design system, several compositions. Recognition lives in
+     the invariants (colour, typeface, margins, footer). Variety lives in the
+     layout, so the feed does not look like one template on repeat. */
+  :root {
+    --ink: #0d0d0d;
+    --accent: #ff6b35;
+    /* Orange on paper is only 2.6:1. This darkened tone clears WCAG AA for
+       small text on light backgrounds. */
+    --accent-ink: #ba4e27;
+    --paper: #f5f5f0;
+    --muted: #9c9c94;
+    --pad: 128px;      /* 11.9%, approximates the Van de Graaf inner margin */
+    --pad-bottom: 168px; /* larger than top per every page canon, and feed UI
+                            chrome overlays the bottom ~12-15% of an image */
+
+    /* Type scale, perfect fourth (1.333). Four steps, never interpolate. */
+    --t1: 152px;  /* display */
+    --t2: 112px;  /* headline */
+    --t3: 88px;   /* subhead */
+    --t4: 64px;   /* body */
+    --t5: 48px;   /* meta, the floor */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1080px; overflow: hidden; }
+
+  body {
+    background: var(--ink); color: var(--paper);
+    font-family: Inter, 'Segoe UI', system-ui, sans-serif;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    -webkit-font-smoothing: antialiased;
+    display: flex; flex-direction: column;
+    padding: var(--pad) var(--pad) var(--pad-bottom);
+  }
+  body.light  { background: var(--paper); color: var(--ink); }
+  body.accent { background: var(--accent); color: var(--ink); }
+
+  .rule { width: 88px; height: 8px; background: var(--accent); flex: none; }
+  body.light .rule  { background: var(--accent-ink); }
+  body.accent .rule { background: var(--ink); }
+
+  .stage {
+    flex: 1 1 auto; min-height: 0; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 44px 0;
+  }
+
+  .kicker {
+    font-size: var(--t5); font-weight: 600; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 28px; flex: none;
+  }
+  body.accent .kicker { color: rgba(13,13,13,.86); }
+  body.light .kicker  { color: var(--accent-ink); }
+
+  h1 { font-weight: 800; line-height: 1.06; letter-spacing: -.028em; text-wrap: balance; max-width: 20ch; }
+  h1 em { font-style: normal; color: var(--accent); }
+  body.accent h1 em { color: var(--ink); box-shadow: inset 0 -.24em 0 rgba(13,13,13,.18); }
+
+  .sub { margin-top: 32px; font-size: var(--t4); line-height: 1.48; color: #c4c4bc; max-width: 42ch; }
+  body.light .sub  { color: #4f4f48; }
+  body.accent .sub { color: rgba(13,13,13,.8); }
+
+  /* stat: one number is the hero */
+  .stat { font-weight: 900; color: var(--accent); line-height: .86; letter-spacing: -.045em; }
+  body.accent .stat { color: var(--ink); }
+  .stat-label { margin-top: 26px; font-size: var(--t3); font-weight: 600; line-height: 1.2; max-width: 18ch; }
+
+  /* quote */
+  .quote-mark { font-size: 150px; line-height: .6; color: var(--accent); font-weight: 800; margin-bottom: 12px; }
+  .attrib { margin-top: 34px; font-size: var(--t5); color: var(--muted); font-weight: 500; }
+  body.light .attrib { color: #4f4f48; }
+
+  /* comparison: two stacked rows, not columns. Columns halve the type size and
+     stop being readable at feed scale. */
+  .rows { display: flex; flex-direction: column; gap: 34px; }
+  .row { border-left: 8px solid rgba(245,245,240,.16); padding-left: 30px; }
+  .row.hi { border-left-color: var(--accent); }
+  body.light .row, body.accent .row { border-left-color: rgba(13,13,13,.18); }
+  body.light .row.hi, body.accent .row.hi { border-left-color: var(--accent); }
+  body.accent .row.hi { border-left-color: var(--ink); }
+  .row .label { font-size: var(--t5); font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .row .value { font-size: 54px; font-weight: 800; line-height: 1.12; letter-spacing: -.02em; }
+
+  /* numbered list */
+  .items { display: flex; flex-direction: column; gap: 30px; }
+  .item { display: flex; gap: 26px; align-items: baseline; }
+  .item .n { font-size: var(--t3); font-weight: 800; color: var(--accent); flex: none; min-width: 1.4em; }
+  .item .body { font-size: 44px; font-weight: 600; line-height: 1.22; letter-spacing: -.015em; }
+  body.accent .item .n { color: var(--ink); }
+
+  footer {
+    flex: none; display: flex; justify-content: space-between; align-items: baseline;
+    font-size: var(--t5); border-top: 1px solid rgba(245,245,240,.14);
+    padding-top: 28px; color: var(--muted);
+  }
+  body.light footer  { border-color: rgba(13,13,13,.15); color: #535349; }
+  body.accent footer { border-color: rgba(13,13,13,.24); color: rgba(13,13,13,.86); }
+  footer .handle { font-weight: 600; color: var(--paper); }
+  body.light .handle, body.accent .handle { color: var(--ink); }
+</style>
+</head>
+<body>
+  <div class="rule"></div>
+  <div class="stage"></div>
+  <footer>
+    <span class="handle"></span>
+    <span class="tag"></span>
+  </footer>
+
+<script>
+  const c = window.__CONTENT__ || {};
+
+  if (c.colors) {
+    const r = document.documentElement.style;
+    if (c.colors.ink) r.setProperty('--ink', c.colors.ink);
+    if (c.colors.accent) r.setProperty('--accent', c.colors.accent);
+    if (c.colors.paper) r.setProperty('--paper', c.colors.paper);
+  }
+  if (c.theme && c.theme !== 'dark') document.body.classList.add(c.theme);
+
+  // Margin tier is bound to the archetype, not fixed. Dense compositions get
+  // the tight tier, single statements get the generous one. Bottom always
+  // exceeds top: every page canon says so, and feed UI chrome overlays the
+  // lower band of an image.
+  const TIER = { list: 96, comparison: 96, stat: 128, statement: 152, quote: 176 };
+
+  const em = (s) => String(s == null ? '' : s).replace(/\*(.+?)\*/g, '<em>$1</em>');
+  const stage = document.querySelector('.stage');
+  document.querySelector('.handle').textContent = c.handle || 'Your Name';
+  document.querySelector('.tag').textContent = c.tag || 'Your Company';
+
+  const kicker = c.kicker ? `<div class="kicker">${c.kicker}</div>` : '';
+  const sub = c.sub ? `<p class="sub">${em(c.sub)}</p>` : '';
+
+  // Layout is chosen by the shape of the content, not at random.
+  const layout = c.layout || (c.stat ? 'stat' : c.rows ? 'comparison'
+                : c.items ? 'list' : c.attrib ? 'quote' : 'statement');
+
+  const pad = TIER[layout] || 128;
+  document.documentElement.style.setProperty('--pad', pad + 'px');
+  document.documentElement.style.setProperty('--pad-bottom', Math.round(pad * 1.35 / 8) * 8 + 'px');
+
+  const build = {
+    statement: () => `${kicker}<h1>${em(c.headline)}</h1>${sub}`,
+
+    stat: () => `${kicker}<div class="stat">${c.stat}</div>` +
+                (c.headline ? `<div class="stat-label">${em(c.headline)}</div>` : '') + sub,
+
+    quote: () => `${kicker}<div class="quote-mark">&ldquo;</div><h1>${em(c.headline)}</h1>` +
+                 (c.attrib ? `<div class="attrib">${c.attrib}</div>` : ''),
+
+    comparison: () => `${kicker}${c.headline ? `<h1>${em(c.headline)}</h1>` : ''}
+      <div class="rows">${(c.rows || []).map((r) => `
+        <div class="row ${r.highlight ? 'hi' : ''}">
+          ${r.label ? `<div class="label">${r.label}</div>` : ''}
+          <div class="value">${em(r.value)}</div>
+        </div>`).join('')}</div>${sub}`,
+
+    list: () => `${kicker}${c.headline ? `<h1>${em(c.headline)}</h1>` : ''}
+      <div class="items">${(c.items || []).map((it, i) => `
+        <div class="item"><div class="n">${i + 1}</div><div class="body">${em(it)}</div></div>`).join('')}</div>`,
+  };
+
+  stage.innerHTML = (build[layout] || build.statement)();
+
+  /** Binary search the largest size that still fits. Measured, not guessed. */
+  function fit(el, min, max) {
+    if (!el || !el.textContent.trim()) return null;
+    let lo = min, hi = max, best = min;
+    while (hi - lo > 0.5) {
+      const mid = (lo + hi) / 2;
+      el.style.fontSize = mid + 'px';
+      if (stage.scrollHeight <= stage.clientHeight) { best = mid; lo = mid; }
+      else { hi = mid; }
+    }
+    el.style.fontSize = best + 'px';
+    return best;
+  }
+
+  const subEl0 = () => stage.querySelector('.sub');
+  const h1 = stage.querySelector('h1');
+  const statEl = stage.querySelector('.stat');
+
+  if (statEl) {
+    // The numeral is the hero and should run 3 to 5 times its qualifier. Size
+    // the supporting text down to its floor FIRST, then let the number take
+    // everything that is left. Fitting the number first lets the label crowd it
+    // and the whole composition collapses into two similar-sized blocks.
+    const label = stage.querySelector('.stat-label');
+    if (label) label.style.fontSize = '56px';
+    if (subEl0()) subEl0().style.fontSize = '48px';
+    fit(statEl, 110, 300);
+
+    // If the ratio is still weak, the qualifier is too long. Shrink it once
+    // more and regrow the number rather than shipping a flat hierarchy.
+    const ratio = parseFloat(statEl.style.fontSize) / (label ? parseFloat(label.style.fontSize) : 1);
+    if (label && ratio < 2.6) {
+      label.style.fontSize = '48px';
+      fit(statEl, 110, 300);
+    }
+  } else if (layout === 'comparison' || layout === 'list') {
+    // Headline stays secondary here; the rows or items are the content.
+    if (h1) fit(h1, 44, 64);
+    const scale = (sel, min, max) => {
+      const els = [...stage.querySelectorAll(sel)];
+      if (!els.length) return;
+      let lo = min, hi = max, best = min;
+      while (hi - lo > 0.5) {
+        const mid = (lo + hi) / 2;
+        els.forEach((e) => { e.style.fontSize = mid + 'px'; });
+        if (stage.scrollHeight <= stage.clientHeight) { best = mid; lo = mid; }
+        else { hi = mid; }
+      }
+      els.forEach((e) => { e.style.fontSize = best + 'px'; });
+    };
+    scale(layout === 'list' ? '.item .body' : '.row .value', 44, 64);
+  } else {
+    fit(h1, 44, layout === 'quote' ? 96 : 120);
+  }
+
+  // The supporting line is sized last and shrinks first. It is the least
+  // important element on the canvas, so it gives up space before a headline,
+  // a stat, or a row does. Floor is the readability minimum, not lower.
+  const subEl = stage.querySelector('.sub');
+  if (subEl && stage.scrollHeight > stage.clientHeight) {
+    for (let px = 64; px >= 48; px -= 2) {
+      subEl.style.fontSize = px + 'px';
+      if (stage.scrollHeight <= stage.clientHeight) break;
+    }
+  }
+
+  window.__FIT__ = {
+    layout,
+    headline: h1 ? parseFloat(h1.style.fontSize) : null,
+    overflow: Math.max(0, stage.scrollHeight - stage.clientHeight),
+  };
+</script>
+</body>
+</html>
