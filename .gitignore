@@ -8,3 +8,14 @@ data/seen-ids.json
 pain-library.md
 mechanism-library.md
 output/renders/
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+.DS_Store
+.env.*
+.netlify/
+.vercel/
+.idea/
+!.env.example
